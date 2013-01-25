@@ -126,6 +126,10 @@ public class DiskQuotaMonitor implements InitializingBean, DisposableBean {
 
         boolean disabled = Boolean.valueOf(storageFinder.findEnvVar(GWC_DISKQUOTA_DISABLED))
                 .booleanValue();
+        if (!disabled) {
+            //check config
+            disabled = !configLoader.loadConfig().isEnabled();
+        }
         if (disabled) {
             log.warn(" -- Found environment variable " + GWC_DISKQUOTA_DISABLED
                     + " set to true. DiskQuotaMonitor is disabled.");
